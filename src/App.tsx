@@ -4,37 +4,48 @@ import { HangmanWord } from "./HangmanWord"
 import { Keyboard } from "./Keyboard"
 import words from "./wordList.json"
 
+//Generates random word from JSON words list
 function getWord() {
   return words[Math.floor(Math.random() * words.length)]
 }
+
 function App() {
+  //set current state for wordToGuess and set update state function (setWordToGuess)
   const  [wordToGuess, setWordToGuess] = useState(getWord)
+
+  //set current state for guessedLetters to empty string array set update state function (setGuessedLetters) 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
+  //create incorrectLetters string array by filtering out letters that are not in the wordToGuess string (filter out correctly guessed letters from the guessed letter string array)
   const incorrectLetters = guessedLetters.filter(letter => !wordToGuess.includes(letter)
   )
 
   const isLoser = incorrectLetters.length >= 6
   const isWinner = wordToGuess.split("").every(letter => guessedLetters.includes(letter))
 
+  //useCallback hook to only render if the guessedLetters array has changed
   const addGuessedLetter = useCallback((letter: string) => {
+    //if guessedLetters array already includes the guessed letter (user pressed a letter they already guessed before) or user won or user lost (game over) return (do nothing)
     if (guessedLetters.includes(letter) || isLoser || isWinner) return
-
+    // otherwise update state to keep existing letters in guessed letters array and add new guessed letter to guessed letters array
     setGuessedLetters(currentLetters => [...currentLetters, letter])
   }, 
   [guessedLetters, isWinner, isWinner]
   )
 
+  
 useEffect(() => {
+  // event handler for keyboard event. If the key pressed doesn't match any letter, do nothing, otherwise run the selected key (letter) through the addGuessedLetter function. 
   const handler = (e: KeyboardEvent) => {
     const key = e.key
+    
 
     if (!key.match(/^[a-z]$/)) return
 
     e.preventDefault()
     addGuessedLetter(key)
   }
-
+  //listen for a keypress on the keyboard and call handler function
   document.addEventListener("keypress", handler)
 
    return () => {
@@ -71,10 +82,11 @@ useEffect(() => {
         alignItems: "center"
       }}>
       <div style={{ fontSize: "2rem", textAlign: "center" }}>{isWinner && "Winner! Refresh to Play Again"}
-      {isLoser && "Game Over. Better Luck Next Time! Refresh to Play Again"}
+      {isLoser && "Game Over. Refresh to Play Again"}
       </div>
-      <HangmanDrawing numberOfGuesses={incorrectLetters.length}/>
+      <HangmanDrawing numberOfIncorrectGuesses={incorrectLetters.length}/>
       <HangmanWord reveal={isLoser} guessedLetters={guessedLetters} wordToGuess={wordToGuess}/>
+      {/* alignSelf: "stretch" overrides the center alignment for the whole app so that the keyboard is laid out in a grid rather than all buttons in a center row.  */}
       <div style={{ alignSelf: "stretch"}}>
         <Keyboard
         disabled= {isWinner || isLoser}

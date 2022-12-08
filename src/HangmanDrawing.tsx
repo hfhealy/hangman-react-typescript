@@ -76,13 +76,14 @@ const LEFT_LEG = (
 const BODY_PARTS = [HEAD, BODY, RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG]
 
 type HangmanDrawingProps = {
-    numberOfGuesses: number
+    numberOfIncorrectGuesses: number
 }
 
-export function HangmanDrawing( { numberOfGuesses }:
+export function HangmanDrawing( { numberOfIncorrectGuesses }:
     HangmanDrawingProps) {
 return <div style= {{ position: "relative" }}>
-    {BODY_PARTS.slice(0, numberOfGuesses)}
+    {/* Slice body parts array from first index up to number of incorrect guesses. The will display the correct amount of body parts on the screen corresponding to the number of incorrect guesses. */}
+    {BODY_PARTS.slice(0, numberOfIncorrectGuesses)}
     <div 
     style={{ 
         height: "50px", 
