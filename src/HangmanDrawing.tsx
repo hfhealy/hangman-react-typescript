@@ -82,7 +82,9 @@ type HangmanDrawingProps = {
 export function HangmanDrawing( { numberOfIncorrectGuesses }:
     HangmanDrawingProps) {
 return <div style= {{ position: "relative" }}>
-    {/* Slice body parts array from first index up to number of incorrect guesses. The will display the correct amount of body parts on the screen corresponding to the number of incorrect guesses. */}
+    {/* Slice body parts array from first index up to number of incorrect guesses. 
+    The will display the correct amount of body parts on the screen corresponding 
+    to the number of incorrect guesses. */}
     {BODY_PARTS.slice(0, numberOfIncorrectGuesses)}
     <div 
     style={{ 

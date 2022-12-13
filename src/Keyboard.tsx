@@ -53,8 +53,10 @@ export function Keyboard({
                 const isInactive = inactiveLetters.includes(key)
 
                 return (
+                //onClick run addGuessedLetter function with key (letter guessed) and add key to guessedLetters array. If it's active render active styles, if inactive render inactive styles. 
                 <button 
                 onClick={() => addGuessedLetter(key)} className={`${styles.btn} ${isActive ? styles.active : ""} ${isInactive ? styles.inactive : ""}`} 
+                //diable key selection 
                 disabled={isInactive || isActive || disabled}
                 key={key}>
                     {key}
