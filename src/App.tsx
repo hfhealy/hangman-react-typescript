@@ -39,7 +39,7 @@ function App() {
     //and add new guessed letter to guessed letters array
     setGuessedLetters(currentLetters => [...currentLetters, letter])
   }, 
-  [guessedLetters, isWinner, isWinner]
+  [guessedLetters, isWinner, isLoser] //?
   )
 
   
@@ -52,7 +52,7 @@ useEffect(() => {
 
     if (!key.match(/^[a-z]$/)) return
 
-    e.preventDefault()
+    e.preventDefault() //?
     addGuessedLetter(key)
   }
   //listen for a keypress on the keyboard and call handler function
@@ -80,7 +80,7 @@ useEffect(() => {
   document.addEventListener("keypress", handler)
 
    return () => {
-    document.removeEventListener("keypress", handler)
+    document.removeEventListener("keypress", handler) //
    }
 }, [])
 
